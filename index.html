@@ -73,6 +73,13 @@ function logoutUser(){currentUser=null;localStorage.removeItem('manawaraUser');a
 const originalAddCart=addCart;addCart=function(n){if(!requireAccountForShopping())return;originalAddCart(n);go('cart');};
 const originalGo=go;go=function(id){originalGo(id);if(id==='account')updateAccountView();};
 render();updateAccountView();
+// Firestore bridge: remote product/category changes update storefront live.
+window.applyFirebaseProducts = function(items){ products = items; render(); };
+window.applyFirebaseCategories = function(items){
+ const wrap=document.querySelector('.cats'); if(!wrap)return;
+ const fallback='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80';
+ wrap.innerHTML=items.map(c=>`<div class="cat" onclick="openCategory(${JSON.stringify(c.name).replace(/</g,'\\u003c')})"><img src="${c.img||fallback}" alt="${c.name}"><span>${c.name}</span></div>`).join('');
+};
 </script>
 <script type="module">
   // استيراد مكتبة Firebase الأساسية
@@ -85,19 +92,28 @@ render();updateAccountView();
 
   // إعدادات مشروع Firebase
   const firebaseConfig = {
-    apiKey: "AIzaSyDcQXYD7vLZ2RY6_RqTlwNFQLExlsCQxQw",
+    apiKey: "AIzaSyCcqXYGTvlZ2RY6_RpFEwNFQJExiqCGeQw",
     authDomain: "al-manawara-pharmacy.firebaseapp.com",
     projectId: "al-manawara-pharmacy",
     storageBucket: "al-manawara-pharmacy.firebasestorage.app",
     messagingSenderId: "278918061465",
-    appId: "1:278918061465:web:6d34e6792a6cc5ef9c8788",
-    measurementId: "G-0H0QXPSNZP"
+    appId: "1:278918061465:web:6434e8792a5cd5ef9a8708",
+    measurementId: "G-8HB9XPSWZP"
   };
 
   // تهيئة التطبيق وقاعدة البيانات
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+  import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  onSnapshot(collection(db,"pharmacyProducts"), snap => {
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(window.applyFirebaseProducts) window.applyFirebaseProducts(items);
+  }, err => console.error("Firestore products:",err));
+  onSnapshot(collection(db,"pharmacyCategories"), snap => {
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(window.applyFirebaseCategories) window.applyFirebaseCategories(items);
+  }, err => console.error("Firestore categories:",err));
 
   // إتاحة Firebase للاستخدام في بقية وظائف التطبيق
   window.firebaseApp = app;
