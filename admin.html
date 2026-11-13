@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#21150b"><title>لوحة تحكم نيو ستايل</title>
 <style>
-:root{--gold:#c99a43;--ink:#21150b}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(140deg,#fff9e9,#f3dfc7 55%,#fff8e9);color:var(--ink);padding:14px}.panel{max-width:720px;margin:10px auto;background:#fffaf0;border:2px solid var(--gold);border-radius:16px;padding:18px;box-shadow:0 15px 45px #0002}.header-bar{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);padding-bottom:10px;margin-bottom:15px}.header-bar h2{margin:0;color:#6b4512;font-size:20px}.store-link{text-decoration:none;background:#218b51;color:white;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:bold}.panel input,.panel select,.panel button{width:100%;padding:11px;margin:6px 0;border:1px solid #d8bd85;border-radius:8px;font:inherit}.panel button{background:#6b4512;color:white;font-weight:bold;cursor:pointer}.panel button:disabled{opacity:0.6;cursor:wait}.panel button.secondary{background:#8b7770}.panel button.danger{background:#a83232}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adminitem{background:#f4e8d3;border-radius:9px;padding:9px;margin:8px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.adminitem img{width:48px;height:55px;object-fit:cover;border-radius:6px}.adminitem span{flex:1;font-size:13px;min-width:100px}.adminitem button{width:auto;margin:0;padding:7px}.section-title{border-bottom:1px solid #dfbd7b;padding-bottom:7px;margin-top:22px;color:#543512}.security-box{background:#f9efe0;border:1px dashed #c99a43;padding:12px;border-radius:10px;margin-top:22px}
+:root{--gold:#c99a43;--ink:#21150b}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(140deg,#fff9e9,#f3dfc7 55%,#fff8e9);color:var(--ink);padding:14px}.panel{max-width:720px;margin:10px auto;background:#fffaf0;border:2px solid var(--gold);border-radius:16px;padding:18px;box-shadow:0 15px 45px #0002}.header-bar{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);padding-bottom:10px;margin-bottom:15px}.header-bar h2{margin:0;color:#6b4512;font-size:20px}.store-link{text-decoration:none;background:#218b51;color:white;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:bold}.panel input,.panel select,.panel button{width:100%;padding:11px;margin:6px 0;border:1px solid #d8bd85;border-radius:8px;font:inherit}.panel button{background:#6b4512;color:white;font-weight:bold;cursor:pointer}.panel button:disabled{opacity:0.6;cursor:wait}.panel button.secondary{background:#8b7770}.panel button.danger{background:#a83232}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adminitem{background:#f4e8d3;border-radius:9px;padding:9px;margin:8px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.adminitem img{width:48px;height:55px;object-fit:cover;border-radius:6px}.adminitem span{flex:1;font-size:13px;min-width:100px}.adminitem button{width:auto;margin:0;padding:7px}.section-title{border-bottom:1px solid #dfbd7b;padding-bottom:7px;margin-top:22px;color:#543512}.security-box{background:#f9efe0;border:1px dashed #c99a43;padding:12px;border-radius:10px;margin-top:22px}.preview-grid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.preview-card{position:relative;width:72px;height:80px;border-radius:8px;overflow:hidden;border:1px solid #c99a43}.preview-card img{width:100%;height:100%;object-fit:cover}.preview-card button{position:absolute;top:2px;left:2px;width:22px;height:22px;padding:0;margin:0;background:#a83232;color:white;border:none;border-radius:50%;font-size:13px;line-height:1}
 </style></head><body>
 <div class="panel">
   <div class="header-bar">
@@ -20,13 +20,14 @@
     <div class="row"><input id="newCategory" placeholder="اسم القسم الجديد"><button id="addCatBtn" onclick="addCategory()">إضافة قسم</button></div>
     <div id="categoryAdmin"></div>
 
-    <h3 class="section-title" id="formtitle">إضافة منتج</h3>
+    <h3 class="section-title" id="formtitle">إضافة منتج (حتى 5 صور)</h3>
     <input id="pname" placeholder="اسم المنتج">
     <input id="pprice" placeholder="السعر (مثال: 5000 ريال)">
     <input id="pwa" placeholder="رقم واتساب" value="967773801095">
     <select id="pcategory"></select>
-    <label>صورة المنتج:</label>
-    <input id="pimage" type="file" accept="image/*">
+    <label>صور المنتج (يمكنك تحديد من 1 إلى 5 صور):</label>
+    <input id="pimage" type="file" accept="image/*" multiple>
+    <div class="preview-grid" id="previewGrid"></div>
     <div class="row"><button id="saveBtn" onclick="saveProduct()">حفظ المنتج</button><button class="secondary" onclick="resetForm()">إلغاء التعديل</button></div>
 
     <h3 class="section-title">المنتجات الحالية</h3>
@@ -61,7 +62,14 @@ const kidsSeed=[
 
 let categories=[...defaultCategories];
 let items=[...kidsSeed];
-let editing=null,uploadedBase64=null,uploadedFileName='',adminPass='';
+let editing=null,adminPass='';
+// قائمة الصور الحالية في النموذج: كل عنصر {url?: string, base64?: string, filename?: string}
+let draftImages=[];
+
+function getProductImages(p){
+  if(Array.isArray(p.images) && p.images.length) return p.images;
+  return p.image ? [p.image] : [];
+}
 
 async function loadStoreData(){
   try{
@@ -150,62 +158,109 @@ function logout(){
   document.getElementById('login').style.display='block';
 }
 
-document.getElementById('pimage').addEventListener('change',e=>{
-  let f=e.target.files[0];if(!f)return;
-  uploadedFileName=f.name.replace(/[^a-zA-Z0-9.]/g,'_');
-  let r=new FileReader();
-  r.onload=()=>{
-    let im=new Image();
-    im.onload=()=>{
-      let c=document.createElement('canvas'),max=1000,scale=Math.min(1,max/Math.max(im.width,im.height));
-      c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);
-      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-      uploadedBase64=c.toDataURL('image/jpeg',.82);
+function compressFile(file){
+  return new Promise(resolve=>{
+    const filename=file.name.replace(/[^a-zA-Z0-9.]/g,'_')||'product.jpg';
+    const r=new FileReader();
+    r.onload=()=>{
+      const im=new Image();
+      im.onload=()=>{
+        const c=document.createElement('canvas'),max=1000,scale=Math.min(1,max/Math.max(im.width,im.height));
+        c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);
+        c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+        resolve({base64:c.toDataURL('image/jpeg',.82),filename});
+      };
+      im.src=r.result;
     };
-    im.src=r.result;
-  };
-  r.readAsDataURL(f);
+    r.readAsDataURL(file);
+  });
+}
+
+document.getElementById('pimage').addEventListener('change',async e=>{
+  const files=Array.from(e.target.files||[]);
+  if(!files.length) return;
+  const remaining=5-draftImages.length;
+  if(remaining<=0){
+    alert('الحد الأقصى 5 صور لكل منتج. احذف صورة أولاً لإضافة غيرها.');
+    e.target.value='';
+    return;
+  }
+  if(files.length>remaining){
+    alert('يمكنك إضافة '+remaining+' صور إضافية فقط (الحد الأقصى 5 صور).');
+  }
+  const selected=files.slice(0,remaining);
+  for(const f of selected){
+    const compressed=await compressFile(f);
+    draftImages.push(compressed);
+  }
+  e.target.value='';
+  renderPreviews();
 });
+
+function renderPreviews(){
+  const grid=document.getElementById('previewGrid');
+  grid.innerHTML='';
+  draftImages.forEach((item,idx)=>{
+    const card=document.createElement('div');card.className='preview-card';
+    const img=document.createElement('img');img.src=item.url||item.base64;
+    const del=document.createElement('button');del.textContent='×';del.title='حذف الصورة';
+    del.onclick=()=>{draftImages.splice(idx,1);renderPreviews()};
+    card.append(img,del);grid.append(card);
+  });
+}
 
 async function saveProduct(){
   let name=document.getElementById('pname').value.trim(),price=document.getElementById('pprice').value.trim(),wa=document.getElementById('pwa').value.trim()||'967773801095',category=document.getElementById('pcategory').value;
   if(!name){alert('اكتب اسم المنتج');return}
   if(!category){alert('أضف قسماً أولاً');return}
-  if(editing===null&&!uploadedBase64){alert('اختر صورة للمنتج');return}
+  if(!draftImages.length){alert('اختر صورة واحدة على الأقل للمنتج');return}
 
   const btn=document.getElementById('saveBtn');
-  btn.disabled=true;btn.textContent='جاري الرفع والحفظ...';
+  btn.disabled=true;
 
   try{
-    let imageUrl=null;
-    if(uploadedBase64){
-      const upRes=await fetch('/api/store',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          password:adminPass,
-          action:'uploadImage',
-          payload:{base64:uploadedBase64,filename:uploadedFileName||'product.jpg'}
-        })
-      });
-      const upData=await upRes.json();
-      if(!upRes.ok) throw new Error(upData.error||'فشل رفع الصورة');
-      imageUrl=upData.url;
+    const finalUrls=[];
+    for(let i=0;i<draftImages.length;i++){
+      const item=draftImages[i];
+      if(item.url){
+        finalUrls.push(item.url);
+      }else if(item.base64){
+        btn.textContent='جاري رفع الصورة '+(i+1)+' من '+draftImages.length+'...';
+        const upRes=await fetch('/api/store',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            password:adminPass,
+            action:'uploadImage',
+            payload:{base64:item.base64,filename:item.filename}
+          })
+        });
+        const upData=await upRes.json();
+        if(!upRes.ok) throw new Error(upData.error||'فشل رفع الصورة');
+        finalUrls.push(upData.url);
+      }
     }
 
+    btn.textContent='جاري حفظ البيانات...';
     if(editing!==null){
       let p=items.find(x=>x.id===editing);
       if(!p)return;
       p.name=name;p.price=price;p.wa=wa;p.category=category;
-      if(imageUrl) p.image=imageUrl;
+      p.image=finalUrls[0];
+      p.images=finalUrls;
     }else{
-      items.unshift({id:Date.now(),name,price,wa,category,image:imageUrl,buttonText:'اطلبي عبر واتساب'});
+      items.unshift({
+        id:Date.now(),name,price,wa,category,
+        image:finalUrls[0],
+        images:finalUrls,
+        buttonText:'اطلبي عبر واتساب'
+      });
     }
 
     await persist();
     resetForm();
     renderAdmin();
-    alert('تم الحفظ بنجاح!');
+    alert('تم حفظ المنتج بجميع صوره بنجاح!');
   }catch(err){
     alert('حدث خطأ: '+err.message);
   }finally{
@@ -213,7 +268,14 @@ async function saveProduct(){
   }
 }
 
-function resetForm(){editing=null;uploadedBase64=null;uploadedFileName='';document.getElementById('pname').value='';document.getElementById('pprice').value='';document.getElementById('pwa').value='967773801095';document.getElementById('pimage').value='';document.getElementById('formtitle').textContent='إضافة منتج'}
+function resetForm(){
+  editing=null;draftImages=[];renderPreviews();
+  document.getElementById('pname').value='';
+  document.getElementById('pprice').value='';
+  document.getElementById('pwa').value='967773801095';
+  document.getElementById('pimage').value='';
+  document.getElementById('formtitle').textContent='إضافة منتج (حتى 5 صور)';
+}
 
 async function addCategory(){
   let name=document.getElementById('newCategory').value.trim();
@@ -258,6 +320,27 @@ function renderAdmin(){
   categories.forEach(cat=>{let d=document.createElement('div');d.className='adminitem';let s=document.createElement('span');s.textContent=cat;let del=document.createElement('button');del.className='danger';del.textContent='حذف القسم';del.onclick=()=>deleteCategory(cat);d.append(s,del);cats.append(d)});
 
   let list=document.getElementById('adminlist');list.innerHTML='';
-  items.forEach(p=>{let d=document.createElement('div');d.className='adminitem';let im=document.createElement('img');im.src=p.image;let s=document.createElement('span');s.textContent=p.name+' — '+(p.price||'السعر عند التواصل')+' ['+p.category+']';let edit=document.createElement('button');edit.textContent='تعديل';edit.onclick=()=>{editing=p.id;uploadedBase64=null;document.getElementById('pname').value=p.name;document.getElementById('pprice').value=p.price||'';document.getElementById('pwa').value=p.wa||'967773801095';document.getElementById('pcategory').value=p.category;document.getElementById('formtitle').textContent='تعديل المنتج';window.scrollTo({top:0,behavior:'smooth'})};let del=document.createElement('button');del.className='danger';del.textContent='حذف';del.onclick=async()=>{if(confirm('حذف المنتج؟')){const backup=[...items];items=items.filter(x=>x.id!==p.id);try{await persist();renderAdmin()}catch(e){items=backup;alert('فشل الحذف')}}};d.append(im,s,edit,del);list.append(d)})
+  items.forEach(p=>{
+    const imgs=getProductImages(p);
+    let d=document.createElement('div');d.className='adminitem';
+    let im=document.createElement('img');im.src=imgs[0]||'';
+    let s=document.createElement('span');
+    s.textContent=p.name+' — '+(p.price||'السعر عند التواصل')+' ['+p.category+'] ('+imgs.length+' صور)';
+    let edit=document.createElement('button');edit.textContent='تعديل';
+    edit.onclick=()=>{
+      editing=p.id;
+      draftImages=imgs.map(u=>({url:u}));
+      renderPreviews();
+      document.getElementById('pname').value=p.name;
+      document.getElementById('pprice').value=p.price||'';
+      document.getElementById('pwa').value=p.wa||'967773801095';
+      document.getElementById('pcategory').value=p.category;
+      document.getElementById('formtitle').textContent='تعديل المنتج (يمكنك إضافة أو حذف صور حتى 5)';
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+    let del=document.createElement('button');del.className='danger';del.textContent='حذف';
+    del.onclick=async()=>{if(confirm('حذف المنتج؟')){const backup=[...items];items=items.filter(x=>x.id!==p.id);try{await persist();renderAdmin()}catch(e){items=backup;alert('فشل الحذف')}}};
+    d.append(im,s,edit,del);list.append(d);
+  });
 }
 </script></body></html>
