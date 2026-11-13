@@ -1,0 +1,6 @@
+{
+  "name": "new-style-store",
+  "dependencies": {
+    "@vercel/blob": "^0.24.0"
+  }
+}
