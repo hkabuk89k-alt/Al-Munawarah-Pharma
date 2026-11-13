@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#21150b"><title>نيو ستايل | New Style</title>
 <style>
-:root{--gold:#c99a43;--ink:#21150b}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(140deg,#fff9e9,#f3dfc7 55%,#fff8e9);color:var(--ink)}header{padding:20px 14px 15px;text-align:center;background:linear-gradient(120deg,#201309,#4a2d13,#201309);color:#fff4d5;border-bottom:4px solid var(--gold)}.brand{display:inline-block;font-size:clamp(28px,6vw,48px);font-weight:900;user-select:none}.logo{font-size:13px;color:#e6c16b;margin-top:4px;letter-spacing:2px}.sub{margin:8px auto 0;max-width:700px;font-size:15px;color:#f8e8c5}main{max-width:1200px;margin:auto;padding:18px 14px 30px}.intro{text-align:center;margin:6px 0 20px}.intro h2{font-size:clamp(19px,4vw,28px);margin:0 0 8px;color:#543512}.intro p{margin:0;color:#70532d}.categories{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:20px 0}.category{border:1px solid #c99a43;background:#fffdf7;color:#543512;border-radius:22px;padding:10px 17px;font:inherit;font-weight:bold;cursor:pointer}.category.active,.category:hover{background:#6b4512;color:#fff4d5}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px}.product{background:#fffdf7;border:1px solid #dfbd7b;border-radius:14px;overflow:hidden;box-shadow:0 5px 14px #5b35141a}.thumb{width:100%;height:190px;object-fit:cover;display:block;cursor:zoom-in;background:#f5ead9}.details{padding:10px 11px 12px}.name{font-weight:700;font-size:15px;line-height:1.5;min-height:42px}.price{font-weight:900;color:#966516;margin:7px 0;font-size:17px}.buy{display:block;text-decoration:none;text-align:center;background:#218b51;color:white;padding:9px 8px;border-radius:9px;font-weight:bold;font-size:14px}.empty{text-align:center;padding:24px;color:#70532d;background:#fff9ed;border-radius:12px;grid-column:1/-1}footer{text-align:center;padding:17px 12px;background:#2b1b0c;color:#f8e4b6;line-height:1.9}.footerlink{color:#ffe19a}.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modal img{max-width:95vw;max-height:90vh;object-fit:contain;border:3px solid #d6ad5d;border-radius:12px}.close{position:absolute;top:15px;left:18px;color:white;font-size:32px;cursor:pointer}@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(205px,1fr))}.thumb{height:240px}}
+:root{--gold:#c99a43;--ink:#21150b}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(140deg,#fff9e9,#f3dfc7 55%,#fff8e9);color:var(--ink)}header{padding:20px 14px 15px;text-align:center;background:linear-gradient(120deg,#201309,#4a2d13,#201309);color:#fff4d5;border-bottom:4px solid var(--gold)}.brand{display:inline-block;font-size:clamp(28px,6vw,48px);font-weight:900;user-select:none}.logo{font-size:13px;color:#e6c16b;margin-top:4px;letter-spacing:2px}.sub{margin:8px auto 0;max-width:700px;font-size:15px;color:#f8e8c5}main{max-width:1200px;margin:auto;padding:18px 14px 30px}.intro{text-align:center;margin:6px 0 20px}.intro h2{font-size:clamp(19px,4vw,28px);margin:0 0 8px;color:#543512}.intro p{margin:0;color:#70532d}.categories{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:20px 0}.category{border:1px solid #c99a43;background:#fffdf7;color:#543512;border-radius:22px;padding:10px 17px;font:inherit;font-weight:bold;cursor:pointer}.category.active,.category:hover{background:#6b4512;color:#fff4d5}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px}.product{background:#fffdf7;border:1px solid #dfbd7b;border-radius:14px;overflow:hidden;box-shadow:0 5px 14px #5b35141a;position:relative}.thumb-wrap{position:relative}.thumb{width:100%;height:190px;object-fit:cover;display:block;cursor:zoom-in;background:#f5ead9}.img-badge{position:absolute;bottom:8px;left:8px;background:#201309cc;color:#fff4d5;font-size:11px;padding:3px 8px;border-radius:12px;border:1px solid #c99a43;pointer-events:none}.details{padding:10px 11px 12px}.name{font-weight:700;font-size:15px;line-height:1.5;min-height:42px}.price{font-weight:900;color:#966516;margin:7px 0;font-size:17px}.buy{display:block;text-decoration:none;text-align:center;background:#218b51;color:white;padding:9px 8px;border-radius:9px;font-weight:bold;font-size:14px}.empty{text-align:center;padding:24px;color:#70532d;background:#fff9ed;border-radius:12px;grid-column:1/-1}footer{text-align:center;padding:17px 12px;background:#2b1b0c;color:#f8e4b6;line-height:1.9}.footerlink{color:#ffe19a}
+.modal{display:none;position:fixed;inset:0;background:#000e;z-index:20;flex-direction:column;align-items:center;justify-content:center;padding:15px;user-select:none}.modal.show{display:flex}.slider-box{position:relative;display:flex;align-items:center;justify-content:center;max-width:95vw;max-height:76vh}.modal img#zoomimg{max-width:92vw;max-height:75vh;object-fit:contain;border:3px solid #d6ad5d;border-radius:12px;background:#1a1008}.close{position:absolute;top:14px;left:18px;color:white;font-size:34px;cursor:pointer;z-index:25;line-height:1}.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:#201309cc;color:#fff4d5;border:1px solid #c99a43;width:42px;height:42px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:22}.nav-btn:hover{background:#6b4512}.nav-prev{right:10px}.nav-next{left:10px}.slide-counter{color:#f8e8c5;font-size:14px;margin-top:10px;font-weight:bold}.thumbs-bar{display:flex;gap:8px;margin-top:10px;overflow-x:auto;max-width:95vw;padding:4px}.thumbs-bar img{width:54px;height:60px;object-fit:cover;border-radius:8px;border:2px solid transparent;opacity:0.6;cursor:pointer}.thumbs-bar img.active{border-color:#c99a43;opacity:1;transform:scale(1.06)}@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(205px,1fr))}.thumb{height:240px}}
 </style></head><body>
 <header><div class="brand" title="نيو ستايل">نيو ستايل للأزياء</div><div class="logo">NEW STYLE ✦ أناقتك تبدأ من هنا</div><div class="sub">للملابس الجاهزة وأدوات التجميل والعطور</div></header>
-<main><section class="intro"><h2>✨ اختاري إطلالتك المميزة ✨</h2><p>اختاري القسم ثم تصفحي المنتجات واضغطي على زر واتساب للطلب.</p></section><div class="categories" id="categories"></div><div class="grid" id="products"><div class="empty">جاري تحميل المنتجات...</div></div></main>
+<main><section class="intro"><h2>✨ اختاري إطلالتك المميزة ✨</h2><p>اختاري القسم ثم تصفحي المنتجات واضغطي على الصورة لمشاهدة جميع الصور.</p></section><div class="categories" id="categories"></div><div class="grid" id="products"><div class="empty">جاري تحميل المنتجات...</div></div></main>
 <footer>📍 الموقع: فوه المساکين — بجوار روضة 22 مايو، حمراء<br>📱 للطلب والاستفسار عبر واتساب:<br><a class="footerlink" href="https://wa.me/967773801095" target="_blank" rel="noopener">+967 773 801 095</a> | <a class="footerlink" href="https://wa.me/967733283850" target="_blank" rel="noopener">+967 733 283 850</a><br>تابعونا على إنستغرام: <span class="footerlink">@nyw.stayl</span></footer>
-<div class="modal" id="zoom" onclick="closeZoom()"><span class="close">×</span><img id="zoomimg" alt="صورة المنتج" onclick="event.stopPropagation()"></div>
+
+<div class="modal" id="zoom" onclick="closeZoom()">
+  <span class="close" onclick="closeZoom()">×</span>
+  <div class="slider-box" onclick="event.stopPropagation()">
+    <button class="nav-btn nav-prev" id="prevBtn" onclick="changeSlide(-1)">›</button>
+    <img id="zoomimg" alt="صورة المنتج">
+    <button class="nav-btn nav-next" id="nextBtn" onclick="changeSlide(1)">‹</button>
+  </div>
+  <div class="slide-counter" id="slideCounter" onclick="event.stopPropagation()"></div>
+  <div class="thumbs-bar" id="thumbsBar" onclick="event.stopPropagation()"></div>
+</div>
+
 <script>
 const defaultCategories=['ملابس أطفال','قسم عطور','قسم مكياج','قسم شامبو','قسم الجمال'];
 const kidsSeed=[
@@ -25,6 +37,12 @@ const kidsSeed=[
 let categories=[...defaultCategories];
 let items=[...kidsSeed];
 let activeCategory=categories[0]||'';
+let currentGallery=[], currentSlide=0, touchStartX=0;
+
+function getProductImages(p){
+  if(Array.isArray(p.images) && p.images.length) return p.images;
+  return p.image ? [p.image] : [];
+}
 
 async function loadStoreData(){
   try{
@@ -41,8 +59,79 @@ async function loadStoreData(){
 
 function waLink(p){let n=(p.wa||'967773801095').replace(/\D/g,'');if(n.startsWith('0'))n='967'+n.slice(1);if(!n.startsWith('967')&&n.length===9)n='967'+n;return 'https://wa.me/'+n+'?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+p.price:''))}
 function renderCategories(){let area=document.getElementById('categories');area.innerHTML='';categories.forEach(cat=>{let b=document.createElement('button');b.className='category'+(cat===activeCategory?' active':'');b.textContent=cat;b.onclick=()=>{activeCategory=cat;render()};area.append(b)})}
-function render(){renderCategories();let grid=document.getElementById('products');grid.innerHTML='';let filtered=items.filter(p=>p.category===activeCategory);if(!filtered.length){let empty=document.createElement('div');empty.className='empty';empty.textContent='لا توجد منتجات في هذا القسم حالياً.';grid.append(empty)}filtered.forEach(p=>{let card=document.createElement('article');card.className='product';let im=document.createElement('img');im.className='thumb';im.src=p.image;im.alt=p.name;im.loading='lazy';im.onclick=()=>zoom(p.image);let details=document.createElement('div');details.className='details';let name=document.createElement('div');name.className='name';name.textContent=p.name;let price=document.createElement('div');price.className='price';price.textContent=p.price||'السعر عند التواصل';let buy=document.createElement('a');buy.className='buy';buy.href=waLink(p);buy.target='_blank';buy.rel='noopener';buy.textContent=p.buttonText||'اطلبي عبر واتساب';let buy2=document.createElement('a');buy2.className='buy';buy2.style.marginTop='6px';buy2.href='https://wa.me/967733283850?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+p.price:''));buy2.target='_blank';buy2.rel='noopener';buy2.textContent='واتساب الرقم الثاني';details.append(name,price,buy,buy2);card.append(im,details);grid.append(card)})}
-function zoom(src){document.getElementById('zoomimg').src=src;document.getElementById('zoom').classList.add('show')}function closeZoom(){document.getElementById('zoom').classList.remove('show')}
+
+function render(){
+  renderCategories();
+  let grid=document.getElementById('products');grid.innerHTML='';
+  let filtered=items.filter(p=>p.category===activeCategory);
+  if(!filtered.length){let empty=document.createElement('div');empty.className='empty';empty.textContent='لا توجد منتجات في هذا القسم حالياً.';grid.append(empty)}
+  filtered.forEach(p=>{
+    let imgs=getProductImages(p);
+    let card=document.createElement('article');card.className='product';
+    let wrap=document.createElement('div');wrap.className='thumb-wrap';
+    let im=document.createElement('img');im.className='thumb';im.src=imgs[0]||'';im.alt=p.name;im.loading='lazy';
+    im.onclick=()=>openGallery(imgs,0);
+    wrap.append(im);
+    if(imgs.length>1){
+      let badge=document.createElement('span');badge.className='img-badge';
+      badge.textContent='📷 '+imgs.length+' صور';
+      wrap.append(badge);
+    }
+    let details=document.createElement('div');details.className='details';
+    let name=document.createElement('div');name.className='name';name.textContent=p.name;
+    let price=document.createElement('div');price.className='price';price.textContent=p.price||'السعر عند التواصل';
+    let buy=document.createElement('a');buy.className='buy';buy.href=waLink(p);buy.target='_blank';buy.rel='noopener';buy.textContent=p.buttonText||'اطلبي عبر واتساب';
+    let buy2=document.createElement('a');buy2.className='buy';buy2.style.marginTop='6px';buy2.href='https://wa.me/967733283850?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+p.price:''));buy2.target='_blank';buy2.rel='noopener';buy2.textContent='واتساب الرقم الثاني';
+    details.append(name,price,buy,buy2);card.append(wrap,details);grid.append(card);
+  });
+}
+
+function openGallery(imgs, idx=0){
+  if(!imgs.length) return;
+  currentGallery=imgs;
+  currentSlide=idx;
+  updateGalleryView();
+  document.getElementById('zoom').classList.add('show');
+}
+
+function updateGalleryView(){
+  document.getElementById('zoomimg').src=currentGallery[currentSlide];
+  const hasMulti=currentGallery.length>1;
+  document.getElementById('prevBtn').style.display=hasMulti?'flex':'none';
+  document.getElementById('nextBtn').style.display=hasMulti?'flex':'none';
+  document.getElementById('slideCounter').textContent=hasMulti?((currentSlide+1)+' / '+currentGallery.length):'';
+  const bar=document.getElementById('thumbsBar');bar.innerHTML='';
+  if(hasMulti){
+    currentGallery.forEach((src,i)=>{
+      const t=document.createElement('img');t.src=src;
+      if(i===currentSlide) t.className='active';
+      t.onclick=()=>{currentSlide=i;updateGalleryView()};
+      bar.append(t);
+    });
+  }
+}
+
+function changeSlide(step){
+  if(currentGallery.length<=1) return;
+  currentSlide=(currentSlide+step+currentGallery.length)%currentGallery.length;
+  updateGalleryView();
+}
+
+function closeZoom(){document.getElementById('zoom').classList.remove('show')}
+
+// دعم السحب باللمس على الجوال والأسهم على الكيبورد
+const zoomEl=document.getElementById('zoom');
+zoomEl.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});
+zoomEl.addEventListener('touchend',e=>{
+  let diff=e.changedTouches[0].screenX-touchStartX;
+  if(Math.abs(diff)>40) changeSlide(diff>0?-1:1);
+},{passive:true});
+document.addEventListener('keydown',e=>{
+  if(!zoomEl.classList.contains('show')) return;
+  if(e.key==='ArrowLeft') changeSlide(1);
+  if(e.key==='ArrowRight') changeSlide(-1);
+  if(e.key==='Escape') closeZoom();
+});
 
 loadStoreData();
 </script></body></html>
