@@ -22,7 +22,11 @@
 
     <h3 class="section-title" id="formtitle">إضافة منتج (حتى 5 صور)</h3>
     <input id="pname" placeholder="اسم المنتج">
-    <input id="pprice" placeholder="السعر (مثال: 5000 ريال)">
+    <input id="pprice" placeholder="السعر (مثال: 5000)">
+    <select id="pcurrency" aria-label="عملة السعر">
+      <option value="YER">ريال يمني</option>
+      <option value="SAR">ريال سعودي</option>
+    </select>
     <input id="pwa" placeholder="رقم واتساب" value="967773801095">
     <select id="pcategory"></select>
     <label>صور المنتج (يمكنك تحديد من 1 إلى 5 صور):</label>
@@ -210,7 +214,7 @@ function renderPreviews(){
 }
 
 async function saveProduct(){
-  let name=document.getElementById('pname').value.trim(),price=document.getElementById('pprice').value.trim(),wa=document.getElementById('pwa').value.trim()||'967773801095',category=document.getElementById('pcategory').value;
+  let name=document.getElementById('pname').value.trim(),price=document.getElementById('pprice').value.trim(),currency=document.getElementById('pcurrency').value,wa=document.getElementById('pwa').value.trim()||'967773801095',category=document.getElementById('pcategory').value;
   if(!name){alert('اكتب اسم المنتج');return}
   if(!category){alert('أضف قسماً أولاً');return}
   if(!draftImages.length){alert('اختر صورة واحدة على الأقل للمنتج');return}
@@ -245,12 +249,12 @@ async function saveProduct(){
     if(editing!==null){
       let p=items.find(x=>x.id===editing);
       if(!p)return;
-      p.name=name;p.price=price;p.wa=wa;p.category=category;
+      p.name=name;p.price=price;p.currency=currency;p.wa=wa;p.category=category;
       p.image=finalUrls[0];
       p.images=finalUrls;
     }else{
       items.unshift({
-        id:Date.now(),name,price,wa,category,
+        id:Date.now(),name,price,currency,wa,category,
         image:finalUrls[0],
         images:finalUrls,
         buttonText:'اطلبي عبر واتساب'
@@ -272,6 +276,7 @@ function resetForm(){
   editing=null;draftImages=[];renderPreviews();
   document.getElementById('pname').value='';
   document.getElementById('pprice').value='';
+  document.getElementById('pcurrency').value='YER';
   document.getElementById('pwa').value='967773801095';
   document.getElementById('pimage').value='';
   document.getElementById('formtitle').textContent='إضافة منتج (حتى 5 صور)';
@@ -333,6 +338,7 @@ function renderAdmin(){
       renderPreviews();
       document.getElementById('pname').value=p.name;
       document.getElementById('pprice').value=p.price||'';
+      document.getElementById('pcurrency').value=p.currency||'YER';
       document.getElementById('pwa').value=p.wa||'967773801095';
       document.getElementById('pcategory').value=p.category;
       document.getElementById('formtitle').textContent='تعديل المنتج (يمكنك إضافة أو حذف صور حتى 5)';

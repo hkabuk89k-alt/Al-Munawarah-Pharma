@@ -57,7 +57,16 @@ async function loadStoreData(){
   render();
 }
 
-function waLink(p){let n=(p.wa||'967773801095').replace(/\D/g,'');if(n.startsWith('0'))n='967'+n.slice(1);if(!n.startsWith('967')&&n.length===9)n='967'+n;return 'https://wa.me/'+n+'?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+p.price:''))}
+function formattedPrice(p){
+  const raw=String(p.price||'السعر عند التواصل').trim();
+  if(!raw || raw==='السعر عند التواصل') return 'السعر عند التواصل';
+  const currency=p.currency==='SAR'?'ريال سعودي':'ريال يمني';
+  if(/ريال\s*(يمني|سعودي)/.test(raw)) return raw.replace(/ريال\s*(يمني|سعودي)/g,currency);
+  if(/ريال/.test(raw)) return raw.replace(/ريال/g,currency);
+  if(/^\d[\d,.]*$/.test(raw)) return raw+' '+currency;
+  return raw;
+}
+function waLink(p){let n=(p.wa||'967773801095').replace(/\D/g,'');if(n.startsWith('0'))n='967'+n.slice(1);if(!n.startsWith('967')&&n.length===9)n='967'+n;return 'https://wa.me/'+n+'?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+formattedPrice(p):''))}
 function renderCategories(){let area=document.getElementById('categories');area.innerHTML='';categories.forEach(cat=>{let b=document.createElement('button');b.className='category'+(cat===activeCategory?' active':'');b.textContent=cat;b.onclick=()=>{activeCategory=cat;render()};area.append(b)})}
 
 function render(){
@@ -79,9 +88,9 @@ function render(){
     }
     let details=document.createElement('div');details.className='details';
     let name=document.createElement('div');name.className='name';name.textContent=p.name;
-    let price=document.createElement('div');price.className='price';price.textContent=p.price||'السعر عند التواصل';
+    let price=document.createElement('div');price.className='price';price.textContent=formattedPrice(p);
     let buy=document.createElement('a');buy.className='buy';buy.href=waLink(p);buy.target='_blank';buy.rel='noopener';buy.textContent=p.buttonText||'اطلبي عبر واتساب';
-    let buy2=document.createElement('a');buy2.className='buy';buy2.style.marginTop='6px';buy2.href='https://wa.me/967733283850?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+p.price:''));buy2.target='_blank';buy2.rel='noopener';buy2.textContent='واتساب الرقم الثاني';
+    let buy2=document.createElement('a');buy2.className='buy';buy2.style.marginTop='6px';buy2.href='https://wa.me/967733283850?text='+encodeURIComponent('السلام عليكم، أريد الاستفسار عن: '+p.name+(p.price?' — السعر: '+formattedPrice(p):''));buy2.target='_blank';buy2.rel='noopener';buy2.textContent='واتساب الرقم الثاني';
     details.append(name,price,buy,buy2);card.append(wrap,details);grid.append(card);
   });
 }
